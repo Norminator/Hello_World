@@ -1,0 +1,15 @@
+
+--IS THE DATE MATCHING THE PARTITION
+  select TO_DATE('1970/01/01', 'yyyy/mm/dd')+ (SRC_CREATE_DATE/ 86400) AS SRC_CREATE_DATE,SRC_CREATE_DATE from REPL_ENVIRONMENT.EVENT_T_04_ARC --where POID_ID0 = 302005108679794953
+  
+---****************************************************************************************************************
+select 'ALTER TABLE  REPL_ENVIRONMENT.'|| table_name || ' DROP PARTITION ' || partition_name || ';' as drop_part
+from (SELECT distinct DBA_tab_partitions.TABLE_OWNER, DBA_tab_partitions.TABLE_NAME, partition_name
+FROM DBA_tab_partitions
+WHERE table_name in ('EVENT_T_01','EVENT_T_02','EVENT_T_03','EVENT_T_04','EVENT_T_05','EVENT_T_06','EVENT_T_07','EVENT_T_08','EVENT_T_09','EVENT_T_10')and 
+/*********PUT PARTITIONS WE WANT TO KEEP INTO THIS LIST*/
+PARTITION_NAME IN
+(
+'PARTITION_HISTORIC'
+))     
+/*******************************************************/
